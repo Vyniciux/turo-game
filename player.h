@@ -1,36 +1,39 @@
-#ifndef PLAYER
-#define PLAYER
-
+#pragma once
 #include "raylib.h"
+#include "collisions.h"
 
-#define right 0
-#define left 1
-#define up 2
-#define down 3
-
-const int screenWidth = 960;
-const int screenHeight = 540;
-
-typedef struct gameVars //Oganiza as variáveis jogo para ficar mais fácil de trabalhar
-{
-    int cenaAtual; //Qual mapa do jogo atualmente
-    int estado; //Estados >> 0:inicio ; 1:Jogando ; 2:pausado
-
+class Player{
+private:
+    Texture2D playerImgs[4];
     int framesCounter; //Contagem de frames
     int frame; //Sprite em que o personagem se encontra
 
-    Vector2 posicao; //Posição x e y do porsonagem
-    Vector2 oldPosicao;
-    int sPod; //Posições right, left, up, donw
+    Vector2 currLocation; //Posição x e y do porsonagem
+    Vector2 oldLocation;
+    int currMov; //Posições right, left, up, donw
     float speed; //Velocidade do personagem
 
-}gameVars;
+    Collisions colisoes; //Objeto para colisões
 
-void controle(gameVars* v, int*** grid); //Serve pra organizar os controles
-void drawPlayer(gameVars* v, Texture2D* playerTex); //Desenha o personagem
-void colisao(gameVars* v, int*** grid); //Controlas as colisões == não implementado
-int*** loadGrid(int nCenas); //Carregando o grid de colisões
+public:
+    Player(int posX, int PosY, int pos, int speed);
+    
+    void playerMovement(); //Define a movimentaão do personagem
 
-#endif
+    void drawPlayer();  //Desenha o personagem na tela
+    void unloadPlayer();
 
+    //Setters
+    void setOldLoc(Vector2 loc);
+    void setCurrLoc(int x, int y);
+    void setCurrMov(int mov);
+    void setFrameCounter(int fcnt);
+    void setFrame(int frm);
 
+    //Getters
+    int getFrame();
+    int getFrameCounter();
+    Vector2 getCurrLoc();
+    int getcurrMov();
+    float getSpeed();
+};
