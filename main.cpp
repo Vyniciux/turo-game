@@ -41,7 +41,6 @@ int main(void)
 
         cenas.sceneControl(maps, Turo);
 
-        DrawRectangle(Turo.getCurrLoc().x,Turo.getCurrLoc().y,35,35,WHITE);
         EndDrawing();
     }
 
