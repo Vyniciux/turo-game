@@ -8,7 +8,7 @@ void Scenes::pauseScreen(Map* maps, Player turo){
     maps[currentScene].drawFrontlayer();
     EndMode2D();
     DrawRectangle(-screenWidth*2,-screenHeight*2,screenWidth*4,screenHeight*4,CLITERAL(Color){250,250,250,100});
-    DrawText("Pausado", 264, 200, 100, BLACK);
+    DrawTextEx(font,"Pausado",{220,220},100,8,BLACK);
 }
 
 Scenes::Scenes(int scenesNum, const int screenW, const int screenH, Player turo){  
@@ -20,6 +20,7 @@ Scenes::Scenes(int scenesNum, const int screenW, const int screenH, Player turo)
     scenesNumber = scenesNum;
     
     menuImg = LoadTexture("./assets/player/turo.png");
+    font = LoadFont("assets/fonts/SuperMario256.ttf");
 
     camera = { 0 };
     camera.target = (Vector2){ turo.getCurrLoc().x + 20.0f, turo.getCurrLoc().y + 20.0f };
@@ -130,9 +131,9 @@ void Scenes::sceneControl(Map* maps, Player turo){
 
 void Scenes::displayMenu(){
     ClearBackground(DARKGREEN);
-    DrawText("Bem vindo ao Turo's Adventure", 200, 150, 35, LIGHTGRAY);
-    DrawText("Pressione enter para jogar", 250, 230, 30, LIGHTGRAY);
-    DrawTexture(menuImg, 290, 300, WHITE);
+    DrawTextEx(font,"Turo's Adventure", {130, 190}, 60, 5, LIGHTGRAY);
+    DrawTextEx(font,"Pressione enter para jogar", {170, 270}, 30, 5, LIGHTGRAY);
+    DrawTexture(menuImg, 330, 340, WHITE);
 }
 
 void Scenes::unloadImg(Texture2D Img){

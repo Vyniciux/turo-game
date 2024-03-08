@@ -22,10 +22,15 @@ int main(void)
 {
     
     InitWindow(screenWidth, screenHeight, "Game - IHS");
+    InitAudioDevice();      // Initialize audio device
+
     Player Turo(333, 252, 3, 1.2);
     Scenes cenas(scenesNum, screenWidth, screenHeight, Turo);
     Map *maps = new Map[scenesNum];
     maps[0].setMap("./assets/map/new_Map.png", "./assets/map/front_layer.png");
+
+    Sound sountTrack = LoadSound("assets/sounds/soundteste.mp3");
+    PlaySound(sountTrack);
 
     SetTargetFPS(60);
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -46,6 +51,9 @@ int main(void)
 
     Turo.unloadPlayer();
     cenas.unloadAllScenes(maps);
+
+    UnloadSound(sountTrack);     // Unload sound data
+    CloseAudioDevice();
     CloseWindow();
 
     //UnloadTexture(m);

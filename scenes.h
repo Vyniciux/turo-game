@@ -17,6 +17,7 @@ private:
     Texture2D scenes[3];
     Texture2D menuImg;
     Camera2D camera;
+    Font font;
 public:
     Scenes(const int scenesNum, const int screenW, const int screenH, Player turo);
     void drawScenes(Map* maps, Player Turo); //Desenha os mapas 
