@@ -5,7 +5,7 @@
 #define up 2
 #define down 3
 
-Player::Player(int posX, int PosY, int pos, int spd){
+Player::Player(int posX, int PosY, int pos, int spd, Collisions *col){
     framesCounter = 0;
     frame = 0;
 
@@ -19,7 +19,7 @@ Player::Player(int posX, int PosY, int pos, int spd){
     playerImgs[2] = LoadTexture("./assets/player/up-Sheet.png");
     playerImgs[3] = LoadTexture("./assets/player/down-Sheet.png");
 
-    Collisions colisoes();
+    colisoes = col;
 
 }
 
@@ -53,7 +53,7 @@ void Player::playerMovement(){
         frame=0; //Voltar a ficar parado quando parar de andar
     }
 
-    if((colisoes.testColision(currLocation,1))!=0){
+    if((colisoes->testColision(currLocation,1))==1){
         currLocation = oldLocation;
     }
 

@@ -11,7 +11,7 @@ void Scenes::pauseScreen(Map* maps, Player turo){
     DrawTextEx(font,"Pausado",{220,220},100,8,BLACK);
 }
 
-Scenes::Scenes(int scenesNum, const int screenW, const int screenH, Player turo){  
+Scenes::Scenes(int scenesNum, const int screenW, const int screenH, Player turo, Collisions *col){  
     screenWidth = screenW;
     screenHeight = screenH;
     currentScene = 0;
@@ -19,8 +19,11 @@ Scenes::Scenes(int scenesNum, const int screenW, const int screenH, Player turo)
 
     scenesNumber = scenesNum;
     
+    colisoes = col;
+
     menuImg = LoadTexture("./assets/player/turo.png");
     font = LoadFont("assets/fonts/SuperMario256.ttf");
+    loadImages();
 
     camera = { 0 };
     camera.target = (Vector2){ turo.getCurrLoc().x + 20.0f, turo.getCurrLoc().y + 20.0f };
@@ -38,7 +41,16 @@ void Scenes::drawScenes (Map* maps, Player turo){
             maps[currentScene].drawMap();
             turo.drawPlayer();
             maps[currentScene].drawFrontlayer();
-            break;
+            
+            if (colisoes->testColision(turo.getCurrLoc(),currentScene)==2)
+            {
+                colisoes->setInGrid(turo.getCurrLoc().x,turo.getCurrLoc().y,0,currentScene);
+                drawDialogue(historyImg[0],"Varias bombas foram instaladas na \n\n\nfloresta na noite passada ouviu-se \n\n\nque a maior esta no rancho e pode \n\n\ndestruir a floresta inteira!");
+                
+            }
+            
+
+             break;
         }
 
         case 1:{
@@ -120,6 +132,36 @@ void Scenes::sceneControl(Map* maps, Player turo){
             break;
         }
 
+        case 3:{
+
+            ClearBackground(BLACK);
+            framesCounter++;
+
+            //std::cout << framesCounter << "\n";
+            int n = strlen(text);
+            char t[n+1];
+            t[n]=0;
+            if(framesCounter<(unsigned int)n)t[framesCounter+1]=0;
+ 
+            DrawTexture(showNow,330,30,WHITE);
+
+            for(unsigned int i = 0; i < framesCounter && (int)i < n; i++)
+            {
+               t[i]=text[i];
+            }
+            
+            DrawTextEx(font,t,{20,360},35,5,WHITE);
+
+            if(framesCounter>100){
+                
+                if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_P)){
+                    currentState = 1;
+                    framesCounter = 0;
+                }
+            }
+
+            break;
+        }
         default:{
             if (IsKeyPressed(KEY_ENTER))
                 currentScene = 0;
@@ -149,6 +191,28 @@ void Scenes::unloadAllScenes(Map* maps){
         maps[i].unloadMaps();
 }
 
+void Scenes::drawDialogue(Texture2D img, const char* texto){ 
+    text = texto;
+    framesCounter = 0;  
+    currentState = 3;    
+    showNow = img;        
+}
+
+void Scenes::loadImages(){
+
+    historyImg[0]= LoadTexture("assets/images/himg1.png");
+    //historyImg[1]=
+    //historyImg[2]=
+}
+
+void Scenes::UnloadImages(){
+
+    for (int i = 0; i < 3; i++)
+    {
+        UnloadTexture(historyImg[i]);
+    }
+    
+}
 
 //Setters
 

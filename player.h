@@ -13,10 +13,10 @@ private:
     int currMov; //Posições right, left, up, donw
     float speed; //Velocidade do personagem
 
-    Collisions colisoes; //Objeto para colisões
+    Collisions *colisoes; //Objeto para colisões
 
 public:
-    Player(int posX, int PosY, int pos, int speed);
+    Player(int posX, int PosY, int pos, int speed, Collisions *colisoes);
     
     void playerMovement(); //Define a movimentaão do personagem
 
