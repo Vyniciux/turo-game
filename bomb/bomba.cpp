@@ -10,6 +10,5 @@ Bomba::~Bomba() {}
 
 // Implementação do método para exibir informações
 void Bomba::exibirInformacoes() const {
-    std::cout << "Bomba: " << nome << std::endl;
     std::cout << "Tempo para explodir: " << tempoParaExplodir << " segundos" << std::endl;
 }

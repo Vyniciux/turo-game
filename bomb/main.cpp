@@ -1,14 +1,14 @@
 #include "bombaeasy.h"
-#include "bombamedium.h"
+/*#include "bombamedium.h"
 #include "bombahard.h"
-#include "bombasuperhard.h"
+#include "bombasuperhard.h"*/
 
 int main() {
     // Bomba Easy
     BombaEasy bomba_easy;
-    std::cout << "Jogo da Bomba Easy:" << std::endl;
-    bomba_easy.jogo();
-    std::cout << std::endl;
+    std::cout << "Teste Bomba Easy:" << std::endl;
+    bomba_easy.iniciaJogo();
+    
 
     /*/ Bomba Medium
     BombaMedium bomba_medium;

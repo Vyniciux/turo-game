@@ -21,16 +21,16 @@ public:
     virtual ~Bomba();
 
     // Método para acionar um switch
-    virtual bool acionarSwitch(std::vector<char>& teclasPossiveis, char tecla) = 0;
+    bool acionarSwitch(std::vector<char>& teclasPossiveis, char tecla);
 
     // Método para iniciar o jogo
-    virtual void jogo() = 0;
-
-    // Método para verificar se a bomba foi desarmada
-    virtual bool desarmada() const = 0;
+    void iniciaJogo();
 
     // Método para exibir informações sobre a bomba
     void exibirInformacoes() const;
+
+    // Retorna o número de switchs
+    int getSwitch();
 };
 
 #endif // BOMBA_H

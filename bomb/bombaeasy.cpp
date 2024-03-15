@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include <omp.h>
+#include <random>
 
 // Construtor da classe BombaEasy
 BombaEasy::BombaEasy() : Bomba(75, 6, 8, 10, "Bomba Easy") {}
@@ -16,60 +18,69 @@ bool BombaEasy::acionarSwitch(std::vector<char>& teclasPossiveis, char tecla) {
     if (it != teclasPossiveis.end()) {
         teclasPossiveis.erase(it);
         return true;
+    }else{
+        tempoParaExplodir -= tempoSub;
+        return false;
     }
-
-    // Se a tecla não estiver na lista, retorna falso
-    return false;
-}
-
-// Método para verificar se a bomba foi desarmada
-bool BombaEasy::desarmada() const {
-    return tempoParaExplodir <= 0;
 }
 
 // Método para iniciar o jogo da bomba
-void BombaEasy::jogo() {
-    char teclaPressionada;
-    exibirInformacoes();
+void BombaEasy::iniciaJogo() {
+    std::cout << nome << std::endl;
     int count = 1;
+    char teclaLida;
 
-    // Inicializa o jogo...
     std::vector<char> teclasPossiveis;
-    for (char tecla = 'a'; tecla < 'a' + quantidadeSwitches; ++tecla) {
-        teclasPossiveis.push_back(tecla);
+    for (char letra = 'a'; letra <= 'z'; ++letra) {
+        teclasPossiveis.push_back(letra);
     }
-    std::random_shuffle(teclasPossiveis.begin(), teclasPossiveis.end());
 
-    exibirInformacoes();
-    while (!desarmada() && tempoParaExplodir > 0 && !teclasPossiveis.empty()) {
-        if (count == 1 || count == intervaloPiscarLEDs){
-            std::cout << "Pressione as teclas: ";
-            for (auto tecla : teclasPossiveis) {
-                std::cout << tecla << " ";
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(teclasPossiveis.begin(), teclasPossiveis.end(), g);
+
+    teclasPossiveis.resize(quantidadeSwitches);
+
+    #pragma omp parallel
+    {
+        #pragma omp sections
+        {
+            #pragma omp section
+            {
+                while (tempoParaExplodir > 0 && !teclasPossiveis.empty()) {
+                    exibirInformacoes();
+                    if (count == 1 || count == intervaloPiscarLEDs){
+                        std::cout << "Pressione as teclas: ";
+                        for (auto tecla : teclasPossiveis) {
+                            std::cout << tecla << " ";
+                        }
+                        std::cout << std::endl;
+                        intervaloPiscarLEDs += intervaloPiscarLEDs;
+                    }
+
+                    count++;
+                    tempoParaExplodir--;
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
+                }
+
+                // Verifica se a bomba foi desarmada ou explodiu
+                if (tempoParaExplodir > 0 && teclasPossiveis.empty()) {
+                    std::cout << "Bomba desarmada!" << std::endl;
+                } else{
+                    std::cout << "A bomba explodiu!" << std::endl;
+                }
             }
-            std::cout << std::endl;
-            intervaloPiscarLEDs += intervaloPiscarLEDs;
+            #pragma omp section
+            {
+                while(tempoParaExplodir > 0 && !teclasPossiveis.empty()){
+                    std::cin >> teclaLida;
+                    if(acionarSwitch(teclasPossiveis, teclaLida)){
+                        std::cout << "Cortou o fio certo!" << std::endl;
+                    }else{
+                        std::cout << "Cuidado! Fio errado!" << std::endl;
+                    }
+                }
+            }
         }
-
-        // Verifica se alguma tecla foi pressionada
-        std::cout << "Digite a tecla pressionada: ";
-        std::cin >> teclaPressionada;
-
-        // Aciona o switch correspondente
-        if (!acionarSwitch(teclasPossiveis, teclaPressionada)) {
-            std::cout << "Tecla incorreta! -" << tempoSub << " segundos" << std::endl;
-            tempoParaExplodir -= tempoSub;
-        }
-
-        count++;
-        teclaPressionada = ' ';
-        tempoParaExplodir--;
-    }
-
-    // Verifica se a bomba foi desarmada ou explodiu
-    if (desarmada()) {
-        std::cout << "Bomba desarmada!" << std::endl;
-    } else {
-        std::cout << "A bomba explodiu!" << std::endl;
     }
 }

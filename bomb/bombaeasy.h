@@ -8,12 +8,9 @@ public:
     // Construtor
     BombaEasy();
 
-    bool acionarSwitch(std::vector<char>& teclasPossiveis, char tecla) override;
-
-    // Sobrescrita do método desarmada
-    bool desarmada() const override;
+    bool acionarSwitch(std::vector<char>& teclasPossiveis, char tecla);
     
-    void jogo();
+    void iniciaJogo();
 };
 
 #endif // BOMBAEASY_H
