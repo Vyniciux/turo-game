@@ -27,7 +27,7 @@ int main(void)
     Collisions colisoes;
 
     Player Turo(333, 252, 3, 1.2, &colisoes);
-    Scenes cenas(scenesNum, screenWidth, screenHeight, Turo, &colisoes);
+    Scenes cenas(scenesNum, screenWidth, screenHeight, &Turo, &colisoes);
 
     Map *maps = new Map[scenesNum];
     maps[0].setMap("./assets/map/new_Map.png", "./assets/map/front_layer.png");
@@ -38,16 +38,12 @@ int main(void)
     SetTargetFPS(60);
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        //std::cout<<cenas.getCurrScene() << "\n";
         BeginDrawing();
         ClearBackground(BLACK);
 
-        if(cenas.getCurrState() == 1){
-            Turo.playerMovement();
-            std:: cout << "Posição x: " << (int)(Turo.getCurrLoc().x/10)+1 << " || " << "Posição y: " << (int)(Turo.getCurrLoc().y/10)+1 << "\n";
-        }
+        std:: cout << "Posição x: " << (int)(Turo.getCurrLoc().x/10)+1 << " || " << "Posição y: " << (int)(Turo.getCurrLoc().y/10)+1 << "\n";
 
-        cenas.sceneControl(maps, Turo);
+        cenas.sceneControl(maps);
 
         EndDrawing();
     }
@@ -55,7 +51,7 @@ int main(void)
     Turo.unloadPlayer();
     cenas.unloadAllScenes(maps);
 
-    UnloadSound(soundTrack);     // Unload sound data
+    UnloadSound(soundTrack); // Unload sound data
     CloseAudioDevice();
     CloseWindow();
 

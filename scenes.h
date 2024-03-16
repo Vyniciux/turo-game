@@ -23,15 +23,16 @@ private:
     Camera2D camera;
     Font font;
 
+    Player *turo;
     Texture2D historyImg[3]; //Imagens de diálogo
     Texture2D showNow; //Imagem de diálogo atual
     const char* text;// Texto do diálogo
     unsigned int framesCounter; //Contar tempo
 
 public:
-    Scenes(const int scenesNum, const int screenW, const int screenH, Player turo, Collisions *col);
-    void drawScenes(Map* maps, Player Turo); //Desenha os mapas 
-    void sceneControl(Map* maps, Player Turo);
+    Scenes(const int scenesNum, const int screenW, const int screenH, Player *turo, Collisions *col);
+    void drawScenes(Map* maps); //Desenha os mapas 
+    void sceneControl(Map* maps);
     void displayMenu();
     void unloadImg(Texture2D Img);
     void loadMapScene(int index, Texture2D mapScene);

@@ -11,6 +11,8 @@ Player::Player(int posX, int PosY, int pos, int spd, Collisions *col){
 
     currLocation.x = (float)posX ;
     currLocation.y = (float)PosY;
+    oldLocation=currLocation;
+
     currMov = pos;
     speed = spd;
 
@@ -24,6 +26,7 @@ Player::Player(int posX, int PosY, int pos, int spd, Collisions *col){
 }
 
 void Player::playerMovement(){
+    
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)){
         oldLocation = currLocation;
         currLocation.x -= speed;
@@ -49,7 +52,6 @@ void Player::playerMovement(){
         framesCounter += speed; 
         currMov = right;
     }else{
-
         frame=0; //Voltar a ficar parado quando parar de andar
     }
 
@@ -64,11 +66,11 @@ void Player::playerMovement(){
             frame=0;
         }
     }    
+
 }
 
 void Player::drawPlayer(){
     DrawTextureRec(playerImgs[currMov],{(float)(frame*playerImgs[currMov].width/4), 0.0f, (float)playerImgs[currMov].width/4, (float)playerImgs[currMov].height }, currLocation ,RAYWHITE);
-
 }
 
 void Player::unloadPlayer(){
@@ -105,8 +107,11 @@ void Player::unloadPlayer(){
     }
 
     void Player::setCurrLoc(int x, int y){
-        currLocation.x = x;
-        currLocation.y = y;
+        currLocation.x=x;
+        currLocation.y=y;
+        
+        
+        std:: cout << "foi!\n";
     }
 
     void Player::setCurrMov(int mov){
