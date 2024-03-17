@@ -25,6 +25,7 @@ public:
 
     //Setters
     void setOldLoc(Vector2 loc);
+    void backMov();
     void setCurrLoc(int x, int y);
     void setCurrMov(int mov);
     void setFrameCounter(int fcnt);

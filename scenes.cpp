@@ -45,6 +45,13 @@ void Scenes::drawScenes (Map* maps){
         case 0:{
 
             switch (colisoes->testColision(turo->getCurrLoc(),currentScene)){
+                case 0:{
+                    break;
+                }
+                case 1:{
+                    turo->backMov();
+                    break;
+                }
                 case 2:{
                     colisoes->setInGrid(turo->getCurrLoc().x,turo->getCurrLoc().y,0,currentScene);
                     drawDialogue(historyImg[0],"Varias bombas foram instaladas na \n\n\nfloresta na noite passada ouviu-se \n\n\nque a maior esta no rancho e pode \n\n\ndestruir a floresta inteira!");
@@ -52,7 +59,8 @@ void Scenes::drawScenes (Map* maps){
                 }
                 case 3:{
                     currentScene=1;
-                    turo->setCurrLoc(200,200);
+                    turo->setCurrLoc(330,400);
+                    turo->setCurrMov(2);
                     drawDialogue(historyImg[1],"Esta escuro demais nesse tunel \n\n\ntome cuidado!");
                     break;
                 }
@@ -68,9 +76,42 @@ void Scenes::drawScenes (Map* maps){
         }
 
         case 1:{
-
-            ClearBackground(RED);
-            DrawText("cena 1, bem vindo", 120, 150, 35, BLACK);
+            
+            switch (colisoes->testColision(turo->getCurrLoc(),currentScene)){
+                case 0:{
+                    break;
+                }
+                case 1:{
+                    turo->backMov();
+                    break;
+                }     
+                case 2:{
+                    currentScene=0;
+                    turo->setCurrLoc(200,410);
+                    turo->setCurrMov(0);
+                    break;
+                }
+                case 3:{
+                    currentScene=0;
+                    turo->setCurrLoc(540,100);
+                    turo->setCurrMov(0);
+                    break;
+                }
+                case 4:{
+                    currentScene=0;
+                    turo->setCurrLoc(540,100);
+                    turo->setCurrMov(0);
+                    break;
+                }
+                    case 5:{
+                    colisoes->setInGrid(350,230,0,currentScene);
+                    colisoes->setInGrid(360,230,0,currentScene);
+                    drawDialogue(historyImg[3],"Voce ouve um barulho de explosao \n\n\ne gritos vindo da superficie.");
+                    break;
+                }
+                default:
+                    break;
+                }
             break;
         }
 
@@ -148,7 +189,7 @@ void Scenes::sceneControl(Map* maps){
 
             char t[n+1]; t[n]=0;
             
-            if(framesCounter<(unsigned int)n)t[framesCounter+1]=0;
+            if(framesCounter<n)t[framesCounter+1]=0;
  
             DrawTexture(showNow,330,30,WHITE);
 
@@ -211,12 +252,14 @@ void Scenes::loadImages(){
     historyImg[0]= LoadTexture("assets/images/himg1.png");
     historyImg[1]= LoadTexture("assets/images/himg2.png");
     historyImg[2]= LoadTexture("assets/images/himg3.png");
+    historyImg[3]= LoadTexture("assets/images/himg4.png");
+
 
 }
 
 void Scenes::UnloadImages(){
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         UnloadTexture(historyImg[i]);
     }

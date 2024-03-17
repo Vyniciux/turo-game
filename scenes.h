@@ -18,16 +18,16 @@ private:
 
     Collisions *colisoes;
 
-    Texture2D scenes[3];
+    Texture2D scenes[10];
     Texture2D menuImg;
     Camera2D camera;
     Font font;
 
     Player *turo;
-    Texture2D historyImg[3]; //Imagens de diálogo
+    Texture2D historyImg[10]; //Imagens de diálogo
     Texture2D showNow; //Imagem de diálogo atual
     const char* text;// Texto do diálogo
-    unsigned int framesCounter; //Contar tempo
+    int framesCounter; //Contar tempo
 
 public:
     Scenes(const int scenesNum, const int screenW, const int screenH, Player *turo, Collisions *col);

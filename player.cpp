@@ -55,10 +55,6 @@ void Player::playerMovement(){
         frame=0; //Voltar a ficar parado quando parar de andar
     }
 
-    if((colisoes->testColision(currLocation,1))==1){
-        currLocation = oldLocation;
-    }
-
     if(framesCounter > 10){
         framesCounter = 0;
         frame += 1;
@@ -72,6 +68,11 @@ void Player::playerMovement(){
 void Player::drawPlayer(){
     DrawTextureRec(playerImgs[currMov],{(float)(frame*playerImgs[currMov].width/4), 0.0f, (float)playerImgs[currMov].width/4, (float)playerImgs[currMov].height }, currLocation ,RAYWHITE);
 }
+
+
+    void Player::backMov(){
+        currLocation = oldLocation;
+    }
 
 void Player::unloadPlayer(){
     for(int i=0; i<4; i++)
