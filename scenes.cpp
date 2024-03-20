@@ -56,7 +56,7 @@ void Scenes::drawScenes (Map* maps){
                 }
                 case 2:{
                     colisoes->setInGrid(turo->getCurrLoc().x,turo->getCurrLoc().y,0,currentScene);
-                    drawDialogue(historyImg[0],"Varias bombas foram instaladas na \n\n\nfloresta na noite passada ouviu-se \n\n\nque a maior esta no rancho e pode \n\n\ndestruir a floresta inteira!");
+                    drawDialogue(historyImg[0],"Varias bombas foram instaladas \n\n\nna floresta na noite passada \n\n\nouviu-se que podem destruir a \n\n\nfloresta inteira! Se apresse!");
                     break;
                 }
                 case 3:{
@@ -74,6 +74,11 @@ void Scenes::drawScenes (Map* maps){
                     colisoes->setInGrid(turo->getCurrLoc().x,turo->getCurrLoc().y,0,currentScene);
                     bomba.setBomb(1);
                     currentState = 4;
+                }
+                case 6:{
+                    currentScene=5;
+                    turo->setCurrLoc(390,270);
+                    turo->setCurrMov(2);
                 }
                 
                 default:
@@ -124,17 +129,77 @@ void Scenes::drawScenes (Map* maps){
 
         case 2:{
 
-            ClearBackground(WHITE);
-            DrawText("cena 2, bem vindo", 120, 150, 35, WHITE);
+             switch (colisoes->testColision(turo->getCurrLoc(),currentScene)){
+                case 0:{
+                    break;
+                }
+                case 1:{
+                    turo->backMov();
+                    break;
+                }
+                default: break;
+            }
+
             break;
         }
         
         case 3:{
 
-            ClearBackground(BLUE);
-            DrawText("Cena 3, bem vindo", 120, 150, 35, WHITE);
+            switch (colisoes->testColision(turo->getCurrLoc(),currentScene)){
+                case 0:{
+                    break;
+                }
+                case 1:{
+                    turo->backMov();
+                    break;
+                }
+                default: break;
+            }
+
             break;
         }
+
+        case 4:{
+
+            switch (colisoes->testColision(turo->getCurrLoc(),currentScene)){
+                case 0:{
+                    break;
+                }
+                case 1:{
+                    turo->backMov();
+                    break;
+                }
+                default: break;
+            }
+
+            break;
+        }
+        case 5:{
+
+            switch (colisoes->testColision(turo->getCurrLoc(),currentScene)){
+                case 0:{
+                    break;
+                }
+                case 1:{
+                    turo->backMov();
+                    break;
+                }
+                case 2:{
+                    colisoes->setInGrid(turo->getCurrLoc().x,turo->getCurrLoc().y,0,currentScene);
+                    drawDialogue(historyImg[6],"Todos fugiram mais eu fiquei \n\n\naqui cuidando dos animais\n\n\neles tem muito medos \n\n\ndas explosoes.");
+                    break;
+                }
+                case 3:{
+                    currentScene=0;
+                    turo->setCurrLoc(600,390);
+                    turo->setCurrMov(2);
+                }
+                default: break;
+            }
+
+            break;
+        }
+
 
         default:{
             
@@ -291,8 +356,7 @@ void Scenes::loadImages(){
     historyImg[3]= LoadTexture("assets/images/himg4.png");
     historyImg[4]= LoadTexture("assets/images/himg5.png");
     historyImg[5]= LoadTexture("assets/images/himg6.png");
-
-
+    historyImg[6]= LoadTexture("assets/images/himg7.png");
 
 }
 

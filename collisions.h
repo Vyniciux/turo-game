@@ -7,7 +7,7 @@ class Collisions{
 
 private:
     int scenecNum;
-    int grid[2*2992];
+    int grid[6*2992];
 
 public:
     Collisions(int numScenes);  //Constructor 

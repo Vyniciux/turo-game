@@ -8,7 +8,7 @@
 const int screenWidth = 960;
 const int screenHeight = 540; 
 
-const int scenesNum = 2;
+const int scenesNum = 6;
 
 const int getScreenWidth(){
     return screenWidth;
@@ -32,6 +32,10 @@ int main(void)
     Map *maps = new Map[scenesNum];
     maps[0].setMap("assets/map/new_Map.png", "assets/map/front_layer.png");
     maps[1].setMap("assets/map/mapa01.png", NULL);
+    maps[2].setMap("assets/map/map3.png", "assets/map/map3front.png");
+    maps[3].setMap("assets/map/map4.png", "assets/map/map4front.png");
+    maps[4].setMap("assets/map/map5.png", "assets/map/map5front.png");
+    maps[5].setMap("assets/map/map6.png", "assets/map/map6front.png");
 
     Sound soundTrack = LoadSound("assets/sounds/soundteste.mp3");
     PlaySound(soundTrack);
