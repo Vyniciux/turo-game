@@ -37,6 +37,7 @@ int main(void)
     PlaySound(soundTrack);
 
     SetTargetFPS(60);
+    
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         BeginDrawing();

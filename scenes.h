@@ -1,11 +1,11 @@
 #pragma once
+
 #include "raylib.h"
 #include "map.h"
 #include "player.h"
-
 #include <string.h>
 #include <iostream>
-
+#include "bomb.h"
 //Define toda a mudança de telas
 
 class Scenes{
@@ -28,6 +28,7 @@ private:
     Texture2D showNow; //Imagem de diálogo atual
     const char* text;// Texto do diálogo
     int framesCounter; //Contar tempo
+    Bomb bomba;
 
 public:
     Scenes(const int scenesNum, const int screenW, const int screenH, Player *turo, Collisions *col);
