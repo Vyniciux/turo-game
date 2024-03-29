@@ -51,7 +51,7 @@ void Scenes::drawScenes (Map* maps){
                     break;
                 }
                 case 1:{
-                    turo->backMov();
+                        turo->backMov();
                     break;
                 }
                 case 2:{
@@ -68,18 +68,43 @@ void Scenes::drawScenes (Map* maps){
                 }
                 case 4:{
                     colisoes->setInGrid(turo->getCurrLoc().x,turo->getCurrLoc().y,0,currentScene);
-                    drawDialogue(historyImg[2],"Voce escuta um forte barulho \n\n\nde explosao e corre para saber \n\n\ndo que se trata.");
+                    drawDialogue(historyImg[2],"A passagem por aqui esta\n\n\nbloqueada, arrudei.");
+                    break;
                 }
                 case 5:{
                     colisoes->setInGrid(turo->getCurrLoc().x,turo->getCurrLoc().y,0,currentScene);
-                    bomba.setBomb(1);
+                    bomba.setBomb(10);
                     currentState = 4;
+                    break;
                 }
                 case 6:{
                     currentScene=5;
                     turo->setCurrLoc(390,270);
                     turo->setCurrMov(2);
+                    break;
                 }
+                case 7:{
+                    currentScene=3;
+                    turo->setCurrLoc(290,310);
+                    turo->setCurrMov(2);
+                    break;
+                }
+                case 8:{
+                    currentScene=4;
+                    turo->setCurrLoc(300,280);
+                    turo->setCurrMov(2);
+                    break;
+                }
+                case 9:{
+                    currentScene=2;
+                    turo->setCurrLoc(310,300);
+                    turo->setCurrMov(2);
+                    break;
+                }
+		case 10:{
+		    currentScene=1;
+		    turo->setCurrLoc(650,30);
+		}
                 
                 default:
                     break;
@@ -104,8 +129,8 @@ void Scenes::drawScenes (Map* maps){
                     break;
                 }
                 case 3:{
-                    currentScene=0;
-                    turo->setCurrLoc(540,100);
+                    currentScene=4;
+                    turo->setCurrLoc(290,220);
                     turo->setCurrMov(0);
                     break;
                 }
@@ -137,6 +162,14 @@ void Scenes::drawScenes (Map* maps){
                     turo->backMov();
                     break;
                 }
+                
+                case 2:{
+                    currentScene=0;
+                    turo->setCurrLoc(43,390);
+                    turo->setCurrMov(2);
+                    break;
+                }
+
                 default: break;
             }
 
@@ -151,6 +184,12 @@ void Scenes::drawScenes (Map* maps){
                 }
                 case 1:{
                     turo->backMov();
+                    break;
+                }
+                case 2:{
+                    currentScene=0;
+                    turo->setCurrLoc(620,100);
+                    turo->setCurrMov(2);
                     break;
                 }
                 default: break;
@@ -169,11 +208,24 @@ void Scenes::drawScenes (Map* maps){
                     turo->backMov();
                     break;
                 }
+                case 2:{
+                    currentScene=0;
+                    turo->setCurrLoc(70,110);
+                    turo->setCurrMov(3);
+                    break;
+                }
+                case 3:{
+                    currentScene=1;
+                    turo->setCurrLoc(30,160);
+                    turo->setCurrMov(0);
+                    break;
+                }
                 default: break;
             }
 
             break;
         }
+      
         case 5:{
 
             switch (colisoes->testColision(turo->getCurrLoc(),currentScene)){
@@ -293,14 +345,18 @@ void Scenes::sceneControl(Map* maps){
             
                 case 1:{ //Ganhou 
                     currentState = 1;
-                    std::cout << "Foi man!\n";
                     drawDialogue(historyImg[5],"Voce consegui destruir a bomba!!!");
                     break;
                 }
                 case 2:{ //Perdeu!
                     currentState = 0;
+		    currentScene = 0;
                     std::cout << "Você perdeu\n";
                     drawDialogue(historyImg[4],"Voce nao conseguiu destruir a \n\n\nbomba, mas lutou baravamente, \n\n\ndescance um pouco guerreiro.");
+		    colisoes->loadGrid();
+                    turo->setCurrLoc(333,252);
+		    turo->setCurrMov(3);
+
                     break;
                 }
                
